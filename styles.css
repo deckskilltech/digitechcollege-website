@@ -5,9 +5,10 @@ body {
 }
 
 .container {
-  width: 90%; /* Flexible width */
-  max-width: 1200px; /* Limit the maximum width */
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Ensure flexibility on smaller screens */
 }
 
 /* Header */
@@ -17,33 +18,56 @@ header {
   justify-content: space-between;
   background: #179217;
   color: #fff;
-  padding: 20px;
+  padding: 15px 20px;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
 }
 
 header .logo {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 20px;
+  margin-right: 15px;
 }
 
 header h1 {
   margin: 0;
-  flex: 1; /* Allows it to take available space */
-  font-size: 1.5em; /* Adjusts font size for responsiveness */
+  flex: 1;
+  font-size: 1.8em;
   text-align: center;
+  order: 1; /* Ensures it's centered on smaller screens */
+}
+
+.burger-menu {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: auto;
+  order: 2; /* Keeps the menu button to the right */
 }
 
 /* Navigation */
 nav {
-  width: 100%; /* Full width for small screens */
-  margin-top: 10px;
+  width: 100%;
   background: #137c13;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
   text-align: center;
+  overflow: hidden;
+  max-height: 0; /* Collapsed by default */
+  opacity: 0;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+nav {
+  display: flex; /* Always visible on larger screens */
+  justify-content: center;
+  background: #137c13;
+  transition: none; /* No transition needed for desktop */
+  max-height: none; /* No height restriction on desktop */
+  opacity: 1; /* Always visible on desktop */
 }
 
 nav ul {
@@ -51,12 +75,12 @@ nav ul {
   margin: 0;
   list-style: none;
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping for smaller screens */
+  flex-wrap: wrap;
   justify-content: center;
 }
 
 nav ul li {
-  margin: 5px 15px; /* Adjust spacing */
+  margin: 5px 10px;
 }
 
 nav ul li a {
@@ -65,7 +89,7 @@ nav ul li a {
   font-weight: bold;
   padding: 10px 15px;
   border-radius: 5px;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 nav ul li a:hover {
@@ -73,11 +97,19 @@ nav ul li a:hover {
   color: #333;
 }
 
+nav ul li a.active {
+  background: #fff;
+  color: #179217;
+}
+
 /* Main Content */
 main {
   padding: 20px;
   background: #f9f9f9;
   border-radius: 5px;
+  margin: 20px auto;
+  max-width: 1200px; /* Keeps content centered and readable */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer */
@@ -90,35 +122,57 @@ footer {
   font-size: 14px;
 }
 
-/* Responsive Media Queries */
+/* Responsive Design */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column; /* Stack logo and heading */
-    text-align: center;
+  .burger-menu {
+    display: block; /* Show the burger menu on smaller screens */
+  }
+nav {
+    display: none; /* Hidden by default on smaller screens */
+    flex-direction: column;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
   }
 
-  header h1 {
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-
-  nav ul {
-    flex-direction: column; /* Stack nav items vertically */
-  }
-
-  nav ul li {
-    margin: 10px 0; /* Add more spacing for stacked items */
+  nav.visible {
+    display: flex; /* Display when toggled */
+    max-height: 500px; /* Adjust height as needed */
+    opacity: 1;
   }
 }
 
-@media (max-width: 480px) {
-  header .logo {
-    width: 60px; /* Reduce logo size */
-    height: 60px;
+  nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
   }
 
-  nav ul li a {
-    font-size: 0.9em; /* Reduce font size */
-    padding: 8px 10px; /* Adjust padding */
+  nav ul li {
+    margin: 5px 0;
   }
+
+  header h1 {
+    font-size: 1.4em; /* Adjust font size for small screens */
+    margin: 10px 0;
+    flex-basis: 100%; /* Takes full width */
+  }
+
+  header .logo {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Accessibility Enhancements */
+.burger-menu:focus,
+.burger-menu:hover {
+  color: #ffd700; /* Highlight color for focus/hover */
+}
+
+nav ul li a:focus,
+nav ul li a:hover {
+  background: #ffd700;
+  color: #333;
 }
